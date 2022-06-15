@@ -18,7 +18,7 @@ def fact(x):
         return x
     else:
         return x*fact(x-1)
-print(fact(5))
+
 
 """#2
  Создайте функцию ```filter_even```, которая принимает на вход список целых чисел,  и фильтруя, возвращает список, содержащий только четные числа. Используйте ```filter``` для фильтрации и  ```lambda```.
@@ -26,7 +26,7 @@ print(fact(5))
 
 def filter_even(li):
     return list(filter(lambda x: x % 2 == 0, li))
-print(filter_even([5, 7, 3, 4, 8, 5, 2]))
+
 
 """#3
 Напишите функцию ```square``` ,которая принимает на вход список целых чисел и возвращает список с возведенными в квадрат элементами. Используйте ```map```.
@@ -34,7 +34,7 @@ print(filter_even([5, 7, 3, 4, 8, 5, 2]))
 
 def square(li):
     return list(map(lambda x: x*x, li))
-print(square([3, 7, 4 ,6]))
+
 """#4
 Напишите функцию бинарного поиска ```bin_search```, которая принимает на вход отсортированный список и элемент. Функция должна возвращать индекс искомого элемента в списке. 
 
@@ -71,9 +71,7 @@ def bin_search(li, element):
             else:
                 low = mid + 1
     return index
-spis, el = '[2,5,7,9,11,17,222] 11'.split()
-spis = [int(i) for i in spis[1:-2].split(',')]
-print(bin_search(spis, int(el)))
+
 """#5
 Напишите функцию ```is_palindrome``` определяющую,является ли строка палиндромом.
 Палиндромами являются текстовые строки, которые одинаково читаются слева направо и справа налево. В строках не учитываются знаки препинания, пробельные символы и цифры; регистр не имеет значения. 
@@ -112,7 +110,7 @@ def is_palindrome(string):
         if string[i] != string[len(string)-1-i]:
             return 'NO'
     return 'YES'
-print(is_palindrome('А роза упала на лапу Азора'))
+
 
 
 """# 6
@@ -162,11 +160,13 @@ print(is_palindrome('А роза упала на лапу Азора'))
 
 """
 def calculate(path2file):
+    s = ''
     with open(path2file, 'r') as file:
         for line in [line.strip() for line in file.readlines()]:
             command, num1, num2 = line.split()
-            print(eval(f'{num1} {command} {num2}'), end=',')
-calculate(r'test_input_file_1.txt')
+            s += str(eval(f'{num1} {command} {num2}')) + ','
+    return s[:-1]
+
 """# 7
 Написать функцию ```substring_slice```,которой на вход поступают два текстовых файла.
 
@@ -214,12 +214,14 @@ vrNOQoxUbyiZombbLaYqBHvydPJlvdspwwpgeLNlHMVYrZvPsQkcQgP KdYYlKKRrYGNWEXTYXOpQqrd
 [Пример выходной строки для двух файлов выше содержится в этом файле.](https://drive.google.com/file/d/11Lsq1DV8iuMsZ_LPuTj50w5Htq1-95Ys/view?usp=sharing)
 """
 
-def substring_slice(path2file_1,path2file_2):
+def substring_slice(path2file_1, path2file_2):
+    s = ''
     with open(path2file_1, 'r') as file_1, open(path2file_2, 'r') as file_2:
         for line in [line.strip() for line in file_1.readlines()]:
             num1, num2 = file_2.readline().split()
-            print(line[int(num1):int(num2)+1], end=' ')
-substring_slice(r'test_import_file_2_1.txt', r'test_import_file_2_2.txt')
+            s += line[int(num1):int(num2)+1] + ' '
+    return s[:-1] 
+
 
 """#8
 
@@ -248,19 +250,20 @@ NOTiFICaTiON
 """
 import json
 
-periodic_table = json.load(open('periodic_table.json', encoding='utf-8'))
-
 def decode_ch(sting_of_elements):
+    s = ''
+    periodic_table = json.load(open('periodic_table.json', encoding='utf-8'))
     el = ''
     for i in range(len(sting_of_elements)):
         if sting_of_elements[i].isupper() and el != '':
-            print(periodic_table[el], end='')
+            s += periodic_table[el]
             el = ''
             el += sting_of_elements[i]
         else:
             el += sting_of_elements[i]
-    print(periodic_table[el], end='')
-decode_ch('NOTiFICaTiON')
+    s += periodic_table[el]
+    return s
+
 
 """#9
 
@@ -317,17 +320,6 @@ class Student:
         print("Grades: ", self.grades)
 
 
-st1 = Student('Александр', 'Костылев', [4, 4, 5, 5, 5])
-st2 = Student('Денис', 'Шарипов')
-
-print()
-st1.showInfo()
-print()
-st2.showInfo()
-print('Среднее всех оценок первого студента: ', st1.mean_grade())
-print('Является ли отличником первый студент: ', st1.is_otlichnik())
-print(st1 + st2)
-print(st1)
 
 
 
@@ -351,4 +343,3 @@ class MyError(Exception):
         return f'MyCustomError, {self.msg} '
 
 
-raise MyError('Retard Alert')
